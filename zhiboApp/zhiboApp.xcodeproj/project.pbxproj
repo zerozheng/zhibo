@@ -1,0 +1,387 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DA95B3E31E5E79CF00B3A05C /* StreamSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3E21E5E79CF00B3A05C /* StreamSession.swift */; };
+		DA95B3E51E5E7AAD00B3A05C /* RTMPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3E41E5E7AAD00B3A05C /* RTMPSession.swift */; };
+		DA95B3E71E5E7ACB00B3A05C /* RTMPType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3E61E5E7ACB00B3A05C /* RTMPType.swift */; };
+		DA95B3E91E5E8E0F00B3A05C /* RTMPSessionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3E81E5E8E0F00B3A05C /* RTMPSessionConfig.swift */; };
+		DA95B3EC1E5EB0A200B3A05C /* DataPackager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3EB1E5EB0A200B3A05C /* DataPackager.swift */; };
+		DA95B3EE1E5EB0D500B3A05C /* DataDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3ED1E5EB0D500B3A05C /* DataDetector.swift */; };
+		DA95B3F01E5EDE6E00B3A05C /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3EF1E5EDE6E00B3A05C /* StringExtension.swift */; };
+		DA95B3F21E5FDE6000B3A05C /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3F11E5FDE6000B3A05C /* RingBuffer.swift */; };
+		DA95B43A1E665DC400B3A05C /* ByteRateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B4391E665DC400B3A05C /* ByteRateManager.swift */; };
+		DAB5048E1E56FC95005D0262 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB5048D1E56FC95005D0262 /* AppDelegate.swift */; };
+		DAB504901E56FC95005D0262 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB5048F1E56FC95005D0262 /* ViewController.swift */; };
+		DAB504931E56FC95005D0262 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAB504911E56FC95005D0262 /* Main.storyboard */; };
+		DAB504951E56FC95005D0262 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAB504941E56FC95005D0262 /* Assets.xcassets */; };
+		DAB504981E56FC95005D0262 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAB504961E56FC95005D0262 /* LaunchScreen.storyboard */; };
+		DAB504A11E56FDA8005D0262 /* StreamSessional.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB504A01E56FDA8005D0262 /* StreamSessional.swift */; };
+		DAC42F841E668FCE00E268B9 /* RandomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC42F831E668FCE00E268B9 /* RandomData.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		DA95B3E21E5E79CF00B3A05C /* StreamSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSession.swift; sourceTree = "<group>"; };
+		DA95B3E41E5E7AAD00B3A05C /* RTMPSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPSession.swift; sourceTree = "<group>"; };
+		DA95B3E61E5E7ACB00B3A05C /* RTMPType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPType.swift; sourceTree = "<group>"; };
+		DA95B3E81E5E8E0F00B3A05C /* RTMPSessionConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPSessionConfig.swift; sourceTree = "<group>"; };
+		DA95B3EB1E5EB0A200B3A05C /* DataPackager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPackager.swift; sourceTree = "<group>"; };
+		DA95B3ED1E5EB0D500B3A05C /* DataDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataDetector.swift; sourceTree = "<group>"; };
+		DA95B3EF1E5EDE6E00B3A05C /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		DA95B3F11E5FDE6000B3A05C /* RingBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
+		DA95B4391E665DC400B3A05C /* ByteRateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteRateManager.swift; sourceTree = "<group>"; };
+		DAB5048A1E56FC95005D0262 /* zhiboApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = zhiboApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAB5048D1E56FC95005D0262 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DAB5048F1E56FC95005D0262 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DAB504921E56FC95005D0262 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DAB504941E56FC95005D0262 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DAB504971E56FC95005D0262 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DAB504991E56FC95005D0262 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAB504A01E56FDA8005D0262 /* StreamSessional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSessional.swift; sourceTree = "<group>"; };
+		DAC42F831E668FCE00E268B9 /* RandomData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomData.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DAB504871E56FC95005D0262 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DA95B3E11E5E78D300B3A05C /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				DAB504A01E56FDA8005D0262 /* StreamSessional.swift */,
+				DA95B3E21E5E79CF00B3A05C /* StreamSession.swift */,
+				DA95B3E41E5E7AAD00B3A05C /* RTMPSession.swift */,
+				DA95B3E61E5E7ACB00B3A05C /* RTMPType.swift */,
+				DA95B3E81E5E8E0F00B3A05C /* RTMPSessionConfig.swift */,
+				DA95B3EF1E5EDE6E00B3A05C /* StringExtension.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		DA95B3EA1E5EB05600B3A05C /* DataLayer */ = {
+			isa = PBXGroup;
+			children = (
+				DA95B3EB1E5EB0A200B3A05C /* DataPackager.swift */,
+				DA95B3ED1E5EB0D500B3A05C /* DataDetector.swift */,
+				DA95B3F11E5FDE6000B3A05C /* RingBuffer.swift */,
+				DA95B4391E665DC400B3A05C /* ByteRateManager.swift */,
+				DAC42F831E668FCE00E268B9 /* RandomData.swift */,
+			);
+			path = DataLayer;
+			sourceTree = "<group>";
+		};
+		DA95B4381E665D8100B3A05C /* other */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = other;
+			sourceTree = "<group>";
+		};
+		DAB504811E56FC95005D0262 = {
+			isa = PBXGroup;
+			children = (
+				DAB5048C1E56FC95005D0262 /* zhiboApp */,
+				DAB5048B1E56FC95005D0262 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DAB5048B1E56FC95005D0262 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DAB5048A1E56FC95005D0262 /* zhiboApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DAB5048C1E56FC95005D0262 /* zhiboApp */ = {
+			isa = PBXGroup;
+			children = (
+				DA95B4381E665D8100B3A05C /* other */,
+				DAB5049F1E56FCCA005D0262 /* Source */,
+				DAB5048D1E56FC95005D0262 /* AppDelegate.swift */,
+				DAB5048F1E56FC95005D0262 /* ViewController.swift */,
+				DAB504911E56FC95005D0262 /* Main.storyboard */,
+				DAB504941E56FC95005D0262 /* Assets.xcassets */,
+				DAB504961E56FC95005D0262 /* LaunchScreen.storyboard */,
+				DAB504991E56FC95005D0262 /* Info.plist */,
+			);
+			path = zhiboApp;
+			sourceTree = "<group>";
+		};
+		DAB5049F1E56FCCA005D0262 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				DA95B3EA1E5EB05600B3A05C /* DataLayer */,
+				DA95B3E11E5E78D300B3A05C /* Network */,
+			);
+			name = Source;
+			path = ../../Source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DAB504891E56FC95005D0262 /* zhiboApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAB5049C1E56FC95005D0262 /* Build configuration list for PBXNativeTarget "zhiboApp" */;
+			buildPhases = (
+				DAB504861E56FC95005D0262 /* Sources */,
+				DAB504871E56FC95005D0262 /* Frameworks */,
+				DAB504881E56FC95005D0262 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = zhiboApp;
+			productName = zhiboApp;
+			productReference = DAB5048A1E56FC95005D0262 /* zhiboApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DAB504821E56FC95005D0262 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = zero;
+				TargetAttributes = {
+					DAB504891E56FC95005D0262 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 6N947FP7VQ;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = DAB504851E56FC95005D0262 /* Build configuration list for PBXProject "zhiboApp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DAB504811E56FC95005D0262;
+			productRefGroup = DAB5048B1E56FC95005D0262 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DAB504891E56FC95005D0262 /* zhiboApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DAB504881E56FC95005D0262 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAB504981E56FC95005D0262 /* LaunchScreen.storyboard in Resources */,
+				DAB504951E56FC95005D0262 /* Assets.xcassets in Resources */,
+				DAB504931E56FC95005D0262 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DAB504861E56FC95005D0262 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA95B3EE1E5EB0D500B3A05C /* DataDetector.swift in Sources */,
+				DAB504A11E56FDA8005D0262 /* StreamSessional.swift in Sources */,
+				DA95B3E91E5E8E0F00B3A05C /* RTMPSessionConfig.swift in Sources */,
+				DAC42F841E668FCE00E268B9 /* RandomData.swift in Sources */,
+				DA95B3E51E5E7AAD00B3A05C /* RTMPSession.swift in Sources */,
+				DA95B3F21E5FDE6000B3A05C /* RingBuffer.swift in Sources */,
+				DAB504901E56FC95005D0262 /* ViewController.swift in Sources */,
+				DA95B3F01E5EDE6E00B3A05C /* StringExtension.swift in Sources */,
+				DA95B43A1E665DC400B3A05C /* ByteRateManager.swift in Sources */,
+				DA95B3E31E5E79CF00B3A05C /* StreamSession.swift in Sources */,
+				DA95B3EC1E5EB0A200B3A05C /* DataPackager.swift in Sources */,
+				DA95B3E71E5E7ACB00B3A05C /* RTMPType.swift in Sources */,
+				DAB5048E1E56FC95005D0262 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DAB504911E56FC95005D0262 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAB504921E56FC95005D0262 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DAB504961E56FC95005D0262 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAB504971E56FC95005D0262 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DAB5049A1E56FC95005D0262 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DAB5049B1E56FC95005D0262 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DAB5049D1E56FC95005D0262 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6N947FP7VQ;
+				INFOPLIST_FILE = zhiboApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.oralCare.zhiboApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		DAB5049E1E56FC95005D0262 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6N947FP7VQ;
+				INFOPLIST_FILE = zhiboApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.oralCare.zhiboApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DAB504851E56FC95005D0262 /* Build configuration list for PBXProject "zhiboApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAB5049A1E56FC95005D0262 /* Debug */,
+				DAB5049B1E56FC95005D0262 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAB5049C1E56FC95005D0262 /* Build configuration list for PBXNativeTarget "zhiboApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAB5049D1E56FC95005D0262 /* Debug */,
+				DAB5049E1E56FC95005D0262 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DAB504821E56FC95005D0262 /* Project object */;
+}
