@@ -74,9 +74,7 @@ class ByteRateManager {
             let totalWillSend: Int = willSendbufferSize.reduce(0, +)
             let predictedBytesPerSec = Double(totalWillSend) / diff
             
-            
             didSentBufferSize.removeAll()
-            willSendbufferSize.removeAll()
             sentLock.unlock()
             bufferLock.unlock()
             
@@ -97,6 +95,7 @@ extension ByteRateManager {
     
     func willSendBuffer(size: Int) {
         bufferLock.lock()
+        willSendbufferSize.removeAll()
         willSendbufferSize.append(size)
         bufferLock.unlock()
     }

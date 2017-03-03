@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA5402A71E6807AB008F9775 /* CongestionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5402A61E6807AB008F9775 /* CongestionManager.swift */; };
 		DA95B3E31E5E79CF00B3A05C /* StreamSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3E21E5E79CF00B3A05C /* StreamSession.swift */; };
 		DA95B3E51E5E7AAD00B3A05C /* RTMPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3E41E5E7AAD00B3A05C /* RTMPSession.swift */; };
 		DA95B3E71E5E7ACB00B3A05C /* RTMPType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3E61E5E7ACB00B3A05C /* RTMPType.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA5402A61E6807AB008F9775 /* CongestionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CongestionManager.swift; sourceTree = "<group>"; };
 		DA95B3E21E5E79CF00B3A05C /* StreamSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSession.swift; sourceTree = "<group>"; };
 		DA95B3E41E5E7AAD00B3A05C /* RTMPSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPSession.swift; sourceTree = "<group>"; };
 		DA95B3E61E5E7ACB00B3A05C /* RTMPType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPType.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 		DA95B4381E665D8100B3A05C /* other */ = {
 			isa = PBXGroup;
 			children = (
+				DA5402A61E6807AB008F9775 /* CongestionManager.swift */,
 			);
 			path = other;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				DAB504A11E56FDA8005D0262 /* StreamSessional.swift in Sources */,
 				DA95B3E91E5E8E0F00B3A05C /* RTMPSessionConfig.swift in Sources */,
 				DAC42F841E668FCE00E268B9 /* RandomData.swift in Sources */,
+				DA5402A71E6807AB008F9775 /* CongestionManager.swift in Sources */,
 				DA95B3E51E5E7AAD00B3A05C /* RTMPSession.swift in Sources */,
 				DA95B3F21E5FDE6000B3A05C /* RingBuffer.swift in Sources */,
 				DAB504901E56FC95005D0262 /* ViewController.swift in Sources */,

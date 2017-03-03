@@ -58,6 +58,9 @@ class RTMPSession: NSObject {
         self.delegate = delegate
         self.streamInBuffer = RingBuffer(capacity: RTMPBufferSize)
         self.stop = false
+        self.maxCongestionSize = 1024*1024*10
+        self.bufferSize = 0
+        self.shouldClearCongestionBuffer = false
         super.init()
     }
     
@@ -68,13 +71,22 @@ class RTMPSession: NSObject {
     
     // 推流链接
     fileprivate var urlString: String?
-    // 写入信号
-    fileprivate var writeSemaphore: DispatchSemaphore
-    fileprivate var writeQueue: DispatchQueue
-    fileprivate var streamInBuffer: RingBuffer
-    fileprivate var s1: UnsafeMutablePointer<UInt8>?
-    fileprivate var byteRateManager: ByteRateManager?
-    fileprivate var stop: Bool
+    
+    /* 以下属性是为了 写入/读出数据 而引入的 */
+    fileprivate var writeSemaphore: DispatchSemaphore //写入信号
+    fileprivate var writeQueue: DispatchQueue //写入队列，串行异步
+    fileprivate var streamInBuffer: RingBuffer //用于读取握手数据
+    fileprivate var s1: UnsafeMutablePointer<UInt8>? //存储握手s1数据,方便c2使用
+    fileprivate var byteRateManager: ByteRateManager? //码率的传输信息
+    fileprivate var stop: Bool //是否停止写入
+    
+    /* 以下属性是为了解决拥塞控制而引入的 */
+    fileprivate var maxCongestionSize: Int //最大拥塞数, 默认10m
+    fileprivate var bufferSize: Int //需要发送的数据总大小
+    fileprivate var bufferSizeLock: NSLock = NSLock() //互斥锁,解决bufferSize设置的问题
+    fileprivate var clearDate: Date? //为重置session而引入的,用于记录重置的时间. session重置时,所有早于clearDate的bufferSize都将不起作用
+    fileprivate var shouldClearCongestionBuffer: Bool //如果发生拥塞，且拥塞数超过了maxCongestionSize, 而且该帧视频数据是关键帧，则为true. 表示可以丢弃数据
+    fileprivate var clearCongestionBufferDate: Date? //如果视频数据是关键帧,则记录该时间，早于该帧的数据将会被丢弃
 }
 
 // MARK: public variable and method
@@ -101,6 +113,7 @@ extension RTMPSession {
     func detectByteRate(withCallback callback: ByteRateCallback?) {
         byteRateManager = ByteRateManager()
         byteRateManager!.callback = callback
+        byteRateManager!.start()
     }
     
 }
@@ -110,26 +123,53 @@ extension RTMPSession {
     func reset() {
         status = .unconnect
         urlString = nil
-        self.streamInBuffer.clear()
+        streamInBuffer.clear()
+        s1 = nil
+        byteRateManager?.clear()
+        bufferSize = 0
+        clearDate = Date()
     }
     
     
-    func write(data: UnsafePointer<UInt8>, size: Int) {
+    func increase(size: Int, date: Date = Date()) {
+        
+        if clearDate != nil && clearDate! > date {
+            return
+        }
+        bufferSizeLock.lock()
+        bufferSize += size
+        bufferSizeLock.unlock()
+    }
+    
+    func write(data: UnsafePointer<UInt8>, size: Int, iskeyFrame: Bool = false, date: Date = Date()) {
         
         guard size > 0 else { return }
-        byteRateManager?.willSendBuffer(size: size)
+        increase(size: size)
+        byteRateManager?.willSendBuffer(size: bufferSize)
+        shouldClearCongestionBuffer = self.bufferSize >= self.maxCongestionSize && iskeyFrame
+        if iskeyFrame { clearCongestionBufferDate = date }
         
-        writeQueue.sync {
-            var buf: UnsafeMutablePointer<UInt8> = UnsafeMutablePointer<UInt8>.allocate(capacity: size)
+        writeQueue.async {
+            let buf: UnsafeMutablePointer<UInt8> = UnsafeMutablePointer<UInt8>.allocate(capacity: size)
             buf.assign(from: data, count: size)
-            var sizeToSent = size
-            while sizeToSent > 0 && !stop {
-                let sent = streamSession.write(from: buf, size: sizeToSent)
-                buf += sent
-                sizeToSent -= sent
-                byteRateManager?.didSentBuffer(size: sent)
-                if sent == 0 {
-                    let _ = writeSemaphore.wait(timeout: DispatchTime.now()+1)
+            
+            var totalSent = 0
+            while size - totalSent > 0 && !self.stop {
+                
+                if self.shouldClearCongestionBuffer && date != self.clearCongestionBufferDate {
+                    self.byteRateManager?.didSentBuffer(size: 0)
+                    self.increase(size: -(size - totalSent))
+                    self.byteRateManager?.willSendBuffer(size: self.bufferSize)
+                    break
+                }else{
+                    let sent = self.streamSession.write(from: &buf[totalSent], size: size - totalSent)
+                    totalSent += sent
+                    self.byteRateManager?.didSentBuffer(size: sent)
+                    self.increase(size: -sent)
+                    self.byteRateManager?.willSendBuffer(size: self.bufferSize)
+                    if sent == 0  && size - totalSent > 0{
+                        let _ = self.writeSemaphore.wait(timeout: DispatchTime.now()+1)
+                    }
                 }
             }
         }
@@ -251,13 +291,128 @@ extension RTMPSession {
     
 
     func sendConnectPacket() {
+        /*
+        RTMPChunk_0 metadata = {{0}};
+        metadata.msg_stream_id = kControlChannelStreamId;
+        metadata.msg_type_id = RTMP_PT_INVOKE;
+        std::vector<uint8_t> buff;
+        std::stringstream url ;
+        if(m_uri.port > 0) {
+            url << m_uri.protocol << "://" << m_uri.host << ":" << m_uri.port << "/" << m_app;
+        } else {
+            url << m_uri.protocol << "://" << m_uri.host << "/" << m_app;
+        }
+        put_string(buff, "connect");
+        put_double(buff, ++m_numberOfInvokes);
+        m_trackedCommands[m_numberOfInvokes] = "connect";
+        put_byte(buff, kAMFObject);
+        put_named_string(buff, "app", m_app.c_str());
+        put_named_string(buff,"type", "nonprivate");
+        put_named_string(buff, "tcUrl", url.str().c_str());
+        put_named_bool(buff, "fpad", false);
+        put_named_double(buff, "capabilities", 15.);
+        put_named_double(buff, "audioCodecs", 10. );
+        put_named_double(buff, "videoCodecs", 7.);
+        put_named_double(buff, "videoFunction", 1.);
+        put_be16(buff, 0);
+        put_byte(buff, kAMFObjectEnd);
         
+        metadata.msg_length.data = static_cast<int>( buff.size() );
+        sendPacket(&buff[0], buff.size(), metadata);
+         */
     }
     
     func parseCurrentData() -> Bool {
         return false
     }
     
+    
+    func sendBuffer() {
+        /*
+        if(m_ending) {
+            return ;
+        }
+        
+        std::shared_ptr<Buffer> buf = std::make_shared<Buffer>(size);
+        buf->put(const_cast<uint8_t*>(data), size);
+        
+        const RTMPMetadata_t inMetadata = static_cast<const RTMPMetadata_t&>(metadata);
+        
+        m_jobQueue.enqueue([=]() {
+        
+        if(!this->m_ending) {
+        static int c_count = 0;
+        c_count ++;
+        
+        auto packetTime = std::chrono::steady_clock::now();
+        
+        std::vector<uint8_t> chunk;
+        std::shared_ptr<std::vector<uint8_t>> outb = std::make_shared<std::vector<uint8_t>>();
+        outb->reserve(size + 64);
+        size_t len = buf->size();
+        size_t tosend = std::min(len, m_outChunkSize);
+        uint8_t* p;
+        buf->read(&p, buf->size());
+        uint64_t ts = inMetadata.getData<kRTMPMetadataTimestamp>() ;
+        const int streamId = inMetadata.getData<kRTMPMetadataMsgStreamId>();
+        
+        #ifndef RTMP_CHUNK_TYPE_0_ONLY
+        auto it = m_previousChunkData.find(streamId);
+        if(it == m_previousChunkData.end()) {
+#endif
+// Type 0.
+put_byte(chunk, ( streamId & 0x1F));
+put_be24(chunk, static_cast<uint32_t>(ts));
+put_be24(chunk, inMetadata.getData<kRTMPMetadataMsgLength>());
+put_byte(chunk, inMetadata.getData<kRTMPMetadataMsgTypeId>());
+put_buff(chunk, (uint8_t*)&m_streamId, sizeof(int32_t)); // msg stream id is little-endian
+#ifndef RTMP_CHUNK_TYPE_0_ONLY
+} else {
+    // Type 1.
+    put_byte(chunk, RTMP_CHUNK_TYPE_1 | (streamId & 0x1F));
+    put_be24(chunk, static_cast<uint32_t>(ts - it->second)); // timestamp delta
+    put_be24(chunk, inMetadata.getData<kRTMPMetadataMsgLength>());
+    put_byte(chunk, inMetadata.getData<kRTMPMetadataMsgTypeId>());
+}
+#endif
+m_previousChunkData[streamId] = ts;
+put_buff(chunk, p, tosend);
+
+outb->insert(outb->end(), chunk.begin(), chunk.end());
+
+len -= tosend;
+p += tosend;
+
+while(len > 0) {
+    tosend = std::min(len, m_outChunkSize);
+    p[-1] = RTMP_CHUNK_TYPE_3 | (streamId & 0x1F);
+    
+    outb->insert(outb->end(), p-1, p+tosend);
+    p+=tosend;
+    len-=tosend;
+    //  this->write(&outb[0], outb.size(), packetTime);
+    //  outb.clear();
+    
+}
+
+this->write(&(*outb)[0], outb->size(), packetTime, inMetadata.getData<kRTMPMetadataIsKeyframe>() );
+}
+
+
+});
+  */
+    }
+
+    func sendPacket() {
+        /*
+        RTMPMetadata_t md(0.);
+        
+        md.setData(metadata.timestamp.data, metadata.msg_length.data, metadata.msg_type_id, metadata.msg_stream_id, false);
+        
+        pushBuffer(data, size, md);
+  */
+    }
+
 }
 
 // MARK: StreamSessionDelegate
