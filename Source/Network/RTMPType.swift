@@ -220,42 +220,6 @@ class RTMPCommandMessage {
     
 }
 
-public protocol AFM0Encoder {
-    func append(to data: inout Data) throws -> Void
-}
-
-extension String: AFM0Encoder {
-    public func append(to data: inout Data) throws {
-        
-        let count = self.utf8.count
-        if count <= 0xFFFF {
-            data.append(AFM0DataType.string.rawValue)
-            let rawPointer = UnsafeMutableRawPointer.allocate(bytes: 2, alignedTo: MemoryLayout<UInt8>.alignment)
-            rawPointer.storeBytes(of: UInt16(count), as: UInt16.self)
-            defer {
-                rawPointer.deallocate(bytes: 2, alignedTo: MemoryLayout<UInt8>.alignment)
-            }
-            data.append(Data(bytes: rawPointer, count: 2))
-        }else if count <= 0xFFFFFFFF {
-            data.append(AFM0DataType.longString.rawValue)
-            let rawPointer = UnsafeMutableRawPointer.allocate(bytes: 4, alignedTo: MemoryLayout<UInt8>.alignment)
-            rawPointer.storeBytes(of: UInt32(count), as: UInt32.self)
-            defer {
-                rawPointer.deallocate(bytes: 4, alignedTo: MemoryLayout<UInt8>.alignment)
-            }
-            data.append(Data(bytes: rawPointer, count: 4))
-        }else{
-            throw AFM0EncodeError.stringOutOfSize
-            //throw "the string encoder with AFM0 is more than 0xFFFFFFFF"
-        }
-    }
-
-    
-}
-
-enum AFM0EncodeError: Error {
-    case stringOutOfSize
-}
 
 enum AFM0DataType: UInt8 {
     case number = 0
