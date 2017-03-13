@@ -103,6 +103,111 @@ extension UInt64: AFM0Encoder {
     }
 }
 
+extension Int32: AFM0Encoder {
+    public func append(to data: inout Data) throws {
+        do {
+            try Double(self).append(to: &data)
+        } catch let error {
+            throw error
+        }
+    }
+}
+
+extension UInt32: AFM0Encoder {
+    public func append(to data: inout Data) throws {
+        do {
+            try Double(self).append(to: &data)
+        } catch let error {
+            throw error
+        }
+    }
+}
+
+extension Int16: AFM0Encoder {
+    public func append(to data: inout Data) throws {
+        do {
+            try Double(self).append(to: &data)
+        } catch let error {
+            throw error
+        }
+    }
+}
+
+extension UInt16: AFM0Encoder {
+    public func append(to data: inout Data) throws {
+        do {
+            try Double(self).append(to: &data)
+        } catch let error {
+            throw error
+        }
+    }
+}
+
+extension Int8: AFM0Encoder {
+    public func append(to data: inout Data) throws {
+        do {
+            try Double(self).append(to: &data)
+        } catch let error {
+            throw error
+        }
+    }
+}
+
+extension UInt8: AFM0Encoder {
+    public func append(to data: inout Data) throws {
+        do {
+            try Double(self).append(to: &data)
+        } catch let error {
+            throw error
+        }
+    }
+}
+
+extension Bool: AFM0Encoder {
+    public func append(to data: inout Data) throws {
+        data.append(AFM0DataType.boolean.rawValue)
+        if self == true {
+            data.append(0)
+        }else{
+            data.append(1)
+        }
+    }
+}
+
+extension Sequence where Iterator.Element == (key: String, value: AFM0Encoder) {
+    public func append(to data: inout Data) throws {
+        data.append(AFM0DataType.object.rawValue)
+        
+        if self.underestimatedCount == 0 { return }
+        
+        for (key, value) in self {
+            //write the key
+            let count: Int64 = Int64(key.utf8.count)
+            if count <= 0xFFFF {
+                let rawPointer = UnsafeMutableRawPointer.allocate(bytes: 2, alignedTo: MemoryLayout<UInt8>.alignment)
+                rawPointer.storeBytes(of: UInt16(count), as: UInt16.self)
+                defer {
+                    rawPointer.deallocate(bytes: 2, alignedTo: MemoryLayout<UInt8>.alignment)
+                }
+                data.append(Data(bytes: rawPointer, count: 2))
+                key.utf8.forEach{ data.append($0) }
+            }else{
+                throw AFM0EncodeError.stringOutOfSize
+            }
+            
+            //write the value
+            do {
+                try value.append(to: &data)
+            }catch let error {
+                throw error
+            }
+        }
+        data.append(0x00)
+        data.append(0x00)
+        data.append(AFM0DataType.objectEnd.rawValue)
+    }
+}
+
 enum AFM0EncodeError: Error {
     case stringOutOfSize
 }

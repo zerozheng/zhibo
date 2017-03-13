@@ -204,17 +204,17 @@ enum EncodingType: Int {
 class RTMPCommandMessage {
     var commandName: CommandType
     var transactionId: Int
-    var commandObject: [String:Any]?
-    var optionalUserArguments: Any?
+    var commandObject: [String:AFM0Encoder]?
+    var optionalUserArguments: AFM0Encoder?
     
-    init(commandName: CommandType, transactionId: Int, commandObject: [String:Any]?, optionalUserArguments: Any?) {
+    init(commandName: CommandType, transactionId: Int, commandObject: [String:AFM0Encoder]?, optionalUserArguments: AFM0Encoder?) {
         self.commandName = commandName
         self.transactionId = transactionId
         self.commandObject = commandObject
         self.optionalUserArguments = optionalUserArguments
     }
     
-    func buffer() ->UnsafePointer<UInt8>? {
+    func buffer(splitSize: Int = 128) ->[Data]? {
         return nil
     }
     
