@@ -14,7 +14,6 @@ extension String {
         return URL(string: self)
     }
     
-    
     var scheme: String? {
         return url?.scheme
     }
@@ -63,4 +62,26 @@ extension String {
             return nil
         }
     }
+    
+    func rtmpLink() throws -> String {
+        var connectUrl: String = ""
+        connectUrl += (self.scheme ?? "rtmp")
+        
+        if let host = self.host {
+            connectUrl += "://\(host)"
+        } else {
+            throw RTMPError.urlPathError(reason: .hostNotExists)
+        }
+        
+        if let port = self.port, port > 0 {
+            connectUrl += ":\(port)"
+        }
+        
+        if let appName = self.app {
+            connectUrl += "/\(appName)"
+        }
+        
+        return connectUrl
+    }
+    
 }

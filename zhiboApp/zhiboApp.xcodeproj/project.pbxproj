@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA5106AD1E72497800C2189C /* AFM0Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5106AC1E72497800C2189C /* AFM0Encoder.swift */; };
+		DA5106B41E779DE000C2189C /* RTMPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5106B31E779DE000C2189C /* RTMPError.swift */; };
 		DA5402A71E6807AB008F9775 /* CongestionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5402A61E6807AB008F9775 /* CongestionManager.swift */; };
 		DA95B3E31E5E79CF00B3A05C /* StreamSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3E21E5E79CF00B3A05C /* StreamSession.swift */; };
 		DA95B3E51E5E7AAD00B3A05C /* RTMPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA95B3E41E5E7AAD00B3A05C /* RTMPSession.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		DA5106AC1E72497800C2189C /* AFM0Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFM0Encoder.swift; sourceTree = "<group>"; };
+		DA5106B31E779DE000C2189C /* RTMPError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPError.swift; sourceTree = "<group>"; };
 		DA5402A61E6807AB008F9775 /* CongestionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CongestionManager.swift; sourceTree = "<group>"; };
 		DA95B3E21E5E79CF00B3A05C /* StreamSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSession.swift; sourceTree = "<group>"; };
 		DA95B3E41E5E7AAD00B3A05C /* RTMPSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPSession.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				DA95B4391E665DC400B3A05C /* ByteRateManager.swift */,
 				DAC42F831E668FCE00E268B9 /* RandomData.swift */,
 				DA5106AC1E72497800C2189C /* AFM0Encoder.swift */,
+				DA5106B31E779DE000C2189C /* RTMPError.swift */,
 			);
 			path = DataLayer;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 				DA5402A71E6807AB008F9775 /* CongestionManager.swift in Sources */,
 				DA5106AD1E72497800C2189C /* AFM0Encoder.swift in Sources */,
 				DA95B3E51E5E7AAD00B3A05C /* RTMPSession.swift in Sources */,
+				DA5106B41E779DE000C2189C /* RTMPError.swift in Sources */,
 				DA95B3F21E5FDE6000B3A05C /* RingBuffer.swift in Sources */,
 				DAB504901E56FC95005D0262 /* ViewController.swift in Sources */,
 				DA95B3F01E5EDE6E00B3A05C /* StringExtension.swift in Sources */,

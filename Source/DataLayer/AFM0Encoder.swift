@@ -35,7 +35,7 @@ extension String: AFM0Encoder {
             data.append(Data(bytes: rawPointer, count: 4))
             self.utf8.forEach{ data.append($0) }
         }else{
-            throw AFM0EncodeError.stringOutOfSize
+            throw RTMPError.afm0EncodeError(reason: .stringOutOfSize)
             //throw "the string encoder with AFM0 is more than 0xFFFFFFFF"
         }
     }
@@ -176,8 +176,8 @@ extension Bool: AFM0Encoder {
 
 extension Sequence where Iterator.Element == (key: String, value: AFM0Encoder) {
     public func append(to data: inout Data) throws {
-        data.append(AFM0DataType.object.rawValue)
         
+        data.append(AFM0DataType.object.rawValue)
         if self.underestimatedCount == 0 { return }
         
         for (key, value) in self {
@@ -192,7 +192,7 @@ extension Sequence where Iterator.Element == (key: String, value: AFM0Encoder) {
                 data.append(Data(bytes: rawPointer, count: 2))
                 key.utf8.forEach{ data.append($0) }
             }else{
-                throw AFM0EncodeError.stringOutOfSize
+                throw RTMPError.afm0EncodeError(reason: .stringOutOfSize)
             }
             
             //write the value
@@ -208,6 +208,4 @@ extension Sequence where Iterator.Element == (key: String, value: AFM0Encoder) {
     }
 }
 
-enum AFM0EncodeError: Error {
-    case stringOutOfSize
-}
+

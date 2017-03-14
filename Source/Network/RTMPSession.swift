@@ -291,31 +291,37 @@ extension RTMPSession {
     
 
     func sendConnectPacket() {
+        
+        guard let url = self.urlString else {
+            print("connectUrl 为nil")
+            return
+        }
+        
+        var connectUrl: String = ""
+        
+        do {
+            try connectUrl = url.rtmpLink()
+        }catch {
+            if error is RTMPError {
+                print((error as! RTMPError).errorDescription)
+            }else{
+                print("unknown error happen")
+            }
+            return
+        }
+        
+        let commandObject: [String: AFM0Encoder] = [CCOName.app.rawValue: url.app ?? "", CCOName.tcUrl.rawValue: connectUrl, CCOName.fpad.rawValue: false, CCOName.audioCodecs.rawValue: 10.0, CCOName.videoCodecs.rawValue: 7.0, CCOName.videoFunction.rawValue: 1.0];
+        
+        let message = RTMPCommandMessage(commandName: .connect, transactionId: 1, commandObject: commandObject, optionalUserArguments: nil)
+        
+        
         /*
         RTMPChunk_0 metadata = {{0}};
         metadata.msg_stream_id = kControlChannelStreamId;
         metadata.msg_type_id = RTMP_PT_INVOKE;
-        std::vector<uint8_t> buff;
-        std::stringstream url ;
-        if(m_uri.port > 0) {
-            url << m_uri.protocol << "://" << m_uri.host << ":" << m_uri.port << "/" << m_app;
-        } else {
-            url << m_uri.protocol << "://" << m_uri.host << "/" << m_app;
-        }
-        put_string(buff, "connect");
-        put_double(buff, ++m_numberOfInvokes);
+         
         m_trackedCommands[m_numberOfInvokes] = "connect";
-        put_byte(buff, kAMFObject);
-        put_named_string(buff, "app", m_app.c_str());
-        put_named_string(buff,"type", "nonprivate");
-        put_named_string(buff, "tcUrl", url.str().c_str());
-        put_named_bool(buff, "fpad", false);
-        put_named_double(buff, "capabilities", 15.);
-        put_named_double(buff, "audioCodecs", 10. );
-        put_named_double(buff, "videoCodecs", 7.);
-        put_named_double(buff, "videoFunction", 1.);
-        put_be16(buff, 0);
-        put_byte(buff, kAMFObjectEnd);
+         
         
         metadata.msg_length.data = static_cast<int>( buff.size() );
         sendPacket(&buff[0], buff.size(), metadata);

@@ -56,17 +56,25 @@ struct RTMPChunkStreamId: RawRepresentable {
 class RTMPChunk {
     var chunkType: RTMPChunkType
     var timeStamp: TimeInterval
-    var msgLenght: Int
+    var msgLength: Int
     var msgTypeId: Int
     var msgStreamId: Int
     
     init(chunkType: RTMPChunkType, timeStamp: TimeInterval, msgLenght: Int, msgTypeId: Int, msgStreamId: Int) {
         self.chunkType = chunkType
         self.timeStamp = timeStamp
-        self.msgLenght = msgLenght
+        self.msgLength = msgLenght
         self.msgTypeId = msgTypeId
-        self.msgStreamId = msgStreamId
+        self.msgStreamId = msgStreamId //litte-endian
     }
+}
+
+struct RTMPMessage {
+    private(set) var timeStamp: TimeInterval
+    private(set) var msgLength: Int
+    private(set) var msgTypeId: Int
+    private(set) var msgStreamId: Int //litte-endian
+    private(set) var data: Data
 }
 
 
@@ -148,18 +156,59 @@ enum CommandType: String {
     case pause = "pause"
 }
 
-enum CommandObjectName: String {
-    case app = "app"
-    case flashver = "flashver"
-    case swfUrl = "swfUrl"
-    case tcUrl = "tcUrl"
-    case fpad = "fpad"
-    case audioCodecs = "audioCodecs"
-    case videoCodecs = "videoCodecs"
-    case videoFunction = "videoFunction"
-    case pageUrl = "pageUrl"
-    case objectEncoding = "objectEncoding"
+
+// MARK: Connect Command About
+
+struct ConnectCommandObjectName: RawRepresentable {
+    typealias RawValue = String
+    private(set) var rawValue: RawValue
+    
+    init(rawValue: RawValue) {
+        self.rawValue = rawValue
+    }
+    
+    static var app: ConnectCommandObjectName {
+        return ConnectCommandObjectName.init(rawValue: "app")
+    }
+    
+    static var flashver: ConnectCommandObjectName {
+        return ConnectCommandObjectName.init(rawValue: "flashver")
+    }
+    
+    static var swfUrl: ConnectCommandObjectName {
+        return ConnectCommandObjectName.init(rawValue: "swfUrl")
+    }
+    
+    static var tcUrl: ConnectCommandObjectName {
+        return ConnectCommandObjectName.init(rawValue: "tcUrl")
+    }
+    
+    static var fpad: ConnectCommandObjectName {
+        return ConnectCommandObjectName.init(rawValue: "tcUrl")
+    }
+    
+    static var audioCodecs: ConnectCommandObjectName {
+        return ConnectCommandObjectName.init(rawValue: "audioCodecs")
+    }
+    
+    static var videoCodecs: ConnectCommandObjectName {
+        return ConnectCommandObjectName.init(rawValue: "audioCodecs")
+    }
+    
+    static var videoFunction: ConnectCommandObjectName {
+        return ConnectCommandObjectName.init(rawValue: "videoFunction")
+    }
+    
+    static var pageUrl: ConnectCommandObjectName {
+        return ConnectCommandObjectName.init(rawValue: "pageUrl")
+    }
+    
+    static var objectEncoding: ConnectCommandObjectName {
+        return ConnectCommandObjectName.init(rawValue: "objectEncoding")
+    }
 }
+
+typealias CCOName = ConnectCommandObjectName
 
 
 enum AudioCodecsType: Int {
@@ -202,20 +251,65 @@ enum EncodingType: Int {
 }
 
 class RTMPCommandMessage {
-    var commandName: CommandType
-    var transactionId: Int
-    var commandObject: [String:AFM0Encoder]?
-    var optionalUserArguments: AFM0Encoder?
+    private(set) var commandName: CommandType
+    private(set) var transactionId: Int
+    private(set) var commandObject: [String:AFM0Encoder]?
+    private(set) var optionalUserArguments: [String:AFM0Encoder]?
     
-    init(commandName: CommandType, transactionId: Int, commandObject: [String:AFM0Encoder]?, optionalUserArguments: AFM0Encoder?) {
+    init(commandName: CommandType, transactionId: Int, commandObject: [String:AFM0Encoder]?, optionalUserArguments: [String:AFM0Encoder]?) {
         self.commandName = commandName
         self.transactionId = transactionId
         self.commandObject = commandObject
         self.optionalUserArguments = optionalUserArguments
     }
     
-    func buffer(splitSize: Int = 128) ->[Data]? {
-        return nil
+    func buffer() -> Data? {
+        var data: Data = Data()
+        do {
+            try commandName.rawValue.append(to: &data)
+        } catch {
+            if error is RTMPError {
+                print((error as! RTMPError).errorDescription)
+            }else{
+                print("unknown error happen")
+            }
+            return nil
+        }
+        
+        do {
+            try transactionId.append(to: &data)
+        } catch {
+            if error is RTMPError {
+                print((error as! RTMPError).errorDescription)
+            }else{
+                print("unknown error happen")
+            }
+            return nil
+        }
+        
+        do {
+            try commandObject?.append(to: &data)
+        } catch {
+            if error is RTMPError {
+                print((error as! RTMPError).errorDescription)
+            }else{
+                print("unknown error happen")
+            }
+            return nil
+        }
+        
+        do {
+            try optionalUserArguments?.append(to: &data)
+        } catch {
+            if error is RTMPError {
+                print((error as! RTMPError).errorDescription)
+            }else{
+                print("unknown error happen")
+            }
+            return nil
+        }
+        
+        return data
     }
     
 }
